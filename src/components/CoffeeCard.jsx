@@ -42,13 +42,13 @@ const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
 
   return (
     <div className=" p-4 ">
-      <div className="bg-[#F5F4F1] p-4  flex flex-col lg:flex-row items-center justify-between shadow-md">
+      <div className="bg-[#F5F4F1] p-2  flex flex-col lg:flex-row items-center justify-between shadow-md">
         {/* Image */}
         <div className="w-full lg:w-[200px] flex justify-center mb-4  lg:mb-0">
           <img
             src={photoURL}
             alt={name}
-            className="h-[170px] rounded object-contain"
+            className="h-[200px] rounded object-contain"
           />
         </div>
 
