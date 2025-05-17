@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { loginUser } = use(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,25 +22,50 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Your login logic here (e.g., call an API or Firebase Authentication)
-    console.log("Form Submitted:", formData);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
 
-    // Example: You can add logic to authenticate here
-    // if (formData.email === 'user@example.com' && formData.password === 'password') {
-    //   console.log("Login successful");
-    // } else {
-    //   console.log("Invalid credentials");
-    // }
+    // firebase login
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        alert("user login success");
+        const signInInfo = {
+          email,
+          lastSignInTime : result.user?.metadata?.lastSignInTime
+        };
+        // updata bd
+        fetch('http://localhost:3000/users',{
+          method: "PATCH",
+          headers:{
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(signInInfo)
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log('after update patch', data)
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+          Login
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -53,7 +80,10 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <div className="relative">
