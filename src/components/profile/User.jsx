@@ -18,7 +18,7 @@ const User = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/users/${id}`, {
+        fetch(`https://coffee-store-server-two-omega.vercel.app/users/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -29,7 +29,7 @@ const User = () => {
                 setUsers(remainingUsers)
 
                 // Todo delete firebase users 
-                
+
               Swal.fire({
                 title: "Deleted!",
                 text: "Your file has been deleted.",

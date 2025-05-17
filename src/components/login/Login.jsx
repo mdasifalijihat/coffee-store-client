@@ -36,7 +36,7 @@ const Login = () => {
           lastSignInTime : result.user?.metadata?.lastSignInTime
         };
         // updata bd
-        fetch('http://localhost:3000/users',{
+        fetch('https://coffee-store-server-two-omega.vercel.app/users',{
           method: "PATCH",
           headers:{
             'content-type': 'application/json'
